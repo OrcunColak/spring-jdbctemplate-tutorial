@@ -1,0 +1,8 @@
+create TABLE IF NOT EXISTS stories
+(
+    -- BIGSERIAL returns Long SERIAL returns Integer
+    id         BIGSERIAL  PRIMARY KEY,
+    title      TEXT,
+    body      TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
