@@ -29,33 +29,33 @@ class StoryRepositoryTest {
     }
 
     @Test
-    void testCreate() {
+    void testInsert() {
         Story story = new Story(null, "My Title", "My Body", Instant.now());
-        Long id = repository.save(story);
+        Long id = repository.insert(story);
         assertThat(id).isNotNull();
 
-        Optional<Story> optional = repository.findStoryById(id);
+        Optional<Story> optional = repository.findById(id);
         assertThat(optional).isPresent();
     }
 
     @Test
     void testDelete() {
         Story story = new Story(null, "My Title", "My Body", Instant.now());
-        Long id = repository.save(story);
+        Long id = repository.insert(story);
 
         int count = repository.delete(id);
         assertThat(count).isEqualTo(1);
     }
 
     @Test
-    void testFindStoryById() {
-        Optional<Story> optional = repository.findStoryById(1L);
+    void testById() {
+        Optional<Story> optional = repository.findById(1L);
         assertThat(optional).isPresent();
     }
 
     @Test
-    void testFindStoryById_NotFound() {
-        Optional<Story> optional = repository.findStoryById(10L);
+    void testById_NotFound() {
+        Optional<Story> optional = repository.findById(10L);
         assertThat(optional).isEmpty();
     }
 
@@ -70,13 +70,13 @@ class StoryRepositoryTest {
     @Test
     void testUpdate() {
         Story story = new Story(null, "My Title", "My Body", Instant.now());
-        Long id = repository.save(story);
+        Long id = repository.insert(story);
 
         Story updatedStory = new Story(id, "My Updated Title", "My Updated Body", story.createdAt());
 
         repository.update(updatedStory);
 
-        Story receivedStory = repository.findStoryById(id).orElseThrow();
+        Story receivedStory = repository.findById(id).orElseThrow();
         assertThat(receivedStory.id()).isEqualTo(id);
         assertThat(receivedStory.title()).isEqualTo("My Updated Title");
         assertThat(receivedStory.body()).isEqualTo("My Updated Body");

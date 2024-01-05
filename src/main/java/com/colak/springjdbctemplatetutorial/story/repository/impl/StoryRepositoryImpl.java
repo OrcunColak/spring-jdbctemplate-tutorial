@@ -3,6 +3,7 @@ package com.colak.springjdbctemplatetutorial.story.repository.impl;
 import com.colak.springjdbctemplatetutorial.story.dto.Story;
 import com.colak.springjdbctemplatetutorial.story.repository.StoryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class StoryRepositoryImpl implements StoryRepository {
@@ -22,11 +24,13 @@ public class StoryRepositoryImpl implements StoryRepository {
     private final StoryRowMapper storyRowMapper = new StoryRowMapper();
 
     @Override
-    public Long save(Story story) {
+    public Long insert(Story story) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             String sql = "insert into stories(title, body, created_at) values(?,?,?)";
+            // We can not use exception connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+            // because two values are generated. id and createdAt fields
             PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
             preparedStatement.setString(1, story.title());
             preparedStatement.setString(2, story.body());
@@ -54,16 +58,18 @@ public class StoryRepositoryImpl implements StoryRepository {
     }
 
     @Override
-    public Optional<Story> findStoryById(Long storyId) {
+    public Optional<Story> findById(Long storyId) {
         String sql = "SELECT id, title, body, created_at  FROM stories WHERE ID = ?";
+        Story story = null;
         try {
-            Story story = jdbcTemplate.queryForObject(sql,
+            story = jdbcTemplate.queryForObject(sql,
                     storyRowMapper,
                     storyId);
             return Optional.of(story);
         } catch (EmptyResultDataAccessException exception) {
-            return Optional.empty();
+            log.error("Story not found. Id parameter: {}", storyId, exception);
         }
+        return Optional.ofNullable(story);
     }
 
     @Override

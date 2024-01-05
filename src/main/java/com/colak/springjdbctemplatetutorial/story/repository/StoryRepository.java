@@ -7,13 +7,13 @@ import java.util.Optional;
 
 public interface StoryRepository {
 
-    Long save(Story story);
+    Long insert(Story story);
 
     int delete(Long id);
 
     List<Story> findAll();
 
-    Optional<Story> findStoryById(Long storyId);
+    Optional<Story> findById(Long storyId);
 
     void update(Story story);
 
