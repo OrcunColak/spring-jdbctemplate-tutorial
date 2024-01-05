@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.OffsetDateTime;
 
 public class StoryRowMapper implements RowMapper<Story> {
 
@@ -14,7 +15,7 @@ public class StoryRowMapper implements RowMapper<Story> {
                 resultSet.getLong("ID"),
                 resultSet.getString("TITLE"),
                 resultSet.getString("BODY"),
-                resultSet.getTimestamp("CREATED_AT").toInstant()
+                resultSet.getObject("CREATED_AT", OffsetDateTime.class)
         );
     }
 }

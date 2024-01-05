@@ -11,7 +11,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,27 +27,23 @@ public class StoryRepositoryImpl implements StoryRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
-            String sql = "insert into stories(title, body, created_at) values(?,?,?)";
+            String sql = "INSERT INTO stories(title, body, created_at) VALUES(?,?,?)";
             // We can not use exception connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
             // because two values are generated. id and createdAt fields
             PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
             preparedStatement.setString(1, story.title());
             preparedStatement.setString(2, story.body());
-            preparedStatement.setTimestamp(3, Timestamp.from(story.createdAt()));
+            preparedStatement.setObject(3, story.createdAt());
             return preparedStatement;
         }, keyHolder);
 
-        return (long) keyHolder.getKey();
+        return (Long) keyHolder.getKey();
     }
 
     @Override
     public int delete(Long id) {
-        String sql = "delete from stories where id = ?";
-        int count = jdbcTemplate.update(sql, id);
-        if (count == 0) {
-            throw new RuntimeException("Story not found");
-        }
-        return count;
+        String sql = "DELETE FROM stories WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
     }
 
     @Override
@@ -65,7 +60,6 @@ public class StoryRepositoryImpl implements StoryRepository {
             story = jdbcTemplate.queryForObject(sql,
                     storyRowMapper,
                     storyId);
-            return Optional.of(story);
         } catch (EmptyResultDataAccessException exception) {
             log.error("Story not found. Id parameter: {}", storyId, exception);
         }
@@ -73,11 +67,8 @@ public class StoryRepositoryImpl implements StoryRepository {
     }
 
     @Override
-    public void update(Story story) {
-        String sql = "update stories set title = ?, body = ? where id = ?";
-        int count = jdbcTemplate.update(sql, story.title(), story.body(), story.id());
-        if (count == 0) {
-            throw new RuntimeException("Bookmark not found");
-        }
+    public int update(Story story) {
+        String sql = "UPDATE stories SET title = ?, body = ? , created_at = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, story.title(), story.body(), story.createdAt(), story.id());
     }
 }

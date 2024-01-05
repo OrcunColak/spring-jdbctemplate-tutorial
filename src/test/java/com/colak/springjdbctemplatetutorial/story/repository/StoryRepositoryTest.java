@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +30,7 @@ class StoryRepositoryTest {
 
     @Test
     void testInsert() {
-        Story story = new Story(null, "My Title", "My Body", Instant.now());
+        Story story = new Story(null, "My Title", "My Body", OffsetDateTime.now());
         Long id = repository.insert(story);
         assertThat(id).isNotNull();
 
@@ -40,7 +40,7 @@ class StoryRepositoryTest {
 
     @Test
     void testDelete() {
-        Story story = new Story(null, "My Title", "My Body", Instant.now());
+        Story story = new Story(null, "My Title", "My Body", OffsetDateTime.now());
         Long id = repository.insert(story);
 
         int count = repository.delete(id);
@@ -69,16 +69,19 @@ class StoryRepositoryTest {
 
     @Test
     void testUpdate() {
-        Story story = new Story(null, "My Title", "My Body", Instant.now());
+        Story story = new Story(null, "My Title", "My Body", OffsetDateTime.now());
         Long id = repository.insert(story);
 
         Story updatedStory = new Story(id, "My Updated Title", "My Updated Body", story.createdAt());
+        assertThat(story.createdAt()).isEqualTo(updatedStory.createdAt());
 
-        repository.update(updatedStory);
+        int updated = repository.update(updatedStory);
+        assertThat(updated).isEqualTo(1);
 
         Story receivedStory = repository.findById(id).orElseThrow();
-        assertThat(receivedStory.id()).isEqualTo(id);
-        assertThat(receivedStory.title()).isEqualTo("My Updated Title");
-        assertThat(receivedStory.body()).isEqualTo("My Updated Body");
+
+        Story truncatedReceivedStory = Story.truncateCreatedAt(updatedStory);
+
+        assertThat(receivedStory).isEqualTo(truncatedReceivedStory);
     }
 }

@@ -15,7 +15,7 @@ public interface StoryRepository {
 
     Optional<Story> findById(Long storyId);
 
-    void update(Story story);
+    int update(Story story);
 
 
 }
