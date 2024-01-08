@@ -68,6 +68,14 @@ class StoryRepositoryTest {
     }
 
     @Test
+    void tesFindAllStream() {
+        List<Story> storyList = repository.findAllStream().toList();
+        assertThat(storyList)
+                .isNotEmpty()
+                .hasSize(2);
+    }
+
+    @Test
     void testUpdate() {
         Story story = new Story(null, "My Title", "My Body", OffsetDateTime.now());
         Long id = repository.insert(story);

@@ -4,6 +4,7 @@ import com.colak.springjdbctemplatetutorial.story.dto.Story;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface StoryRepository {
 
@@ -12,6 +13,8 @@ public interface StoryRepository {
     int delete(Long id);
 
     List<Story> findAll();
+
+    Stream<Story> findAllStream();
 
     Optional<Story> findById(Long storyId);
 

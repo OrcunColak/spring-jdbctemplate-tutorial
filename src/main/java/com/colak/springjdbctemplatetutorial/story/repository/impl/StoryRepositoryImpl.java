@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -50,6 +51,12 @@ public class StoryRepositoryImpl implements StoryRepository {
     public List<Story> findAll() {
         String sql = "SELECT id, title, body, created_at FROM stories";
         return jdbcTemplate.query(sql, storyRowMapper);
+    }
+
+    @Override
+    public Stream<Story> findAllStream() {
+        String sql = "SELECT id, title, body, created_at FROM stories";
+        return jdbcTemplate.queryForStream(sql, storyRowMapper);
     }
 
     @Override
