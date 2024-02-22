@@ -1,7 +1,6 @@
 package com.colak.springjdbctemplatetutorial.story.repository;
 
 import com.colak.springjdbctemplatetutorial.story.dto.Story;
-import com.colak.springjdbctemplatetutorial.story.repository.impl.StoryRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,12 @@ class StoryRepositoryTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private StoryRepositoryImpl repository;
+    private StoryRepository repository;
 
 
     @BeforeEach
     void setUp() {
-        repository = new StoryRepositoryImpl(jdbcTemplate);
+        repository = new StoryRepository(jdbcTemplate);
     }
 
     @Test
@@ -50,6 +49,12 @@ class StoryRepositoryTest {
     @Test
     void testById() {
         Optional<Story> optional = repository.findById(1L);
+        assertThat(optional).isPresent();
+    }
+
+    @Test
+    void testById2() {
+        Optional<Story> optional = repository.findById2(1L);
         assertThat(optional).isPresent();
     }
 

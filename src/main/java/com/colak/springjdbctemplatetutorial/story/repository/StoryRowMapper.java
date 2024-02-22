@@ -1,4 +1,4 @@
-package com.colak.springjdbctemplatetutorial.story.repository.impl;
+package com.colak.springjdbctemplatetutorial.story.repository;
 
 import com.colak.springjdbctemplatetutorial.story.dto.Story;
 import org.springframework.jdbc.core.RowMapper;
