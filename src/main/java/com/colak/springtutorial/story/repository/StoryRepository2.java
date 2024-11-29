@@ -11,7 +11,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.util.Assert;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -37,11 +36,7 @@ public class StoryRepository2 {
 
         Assert.state(updated == 1, "Story insert failed");
 
-        // Retrieve the generated key
-        Map<String, Object> generatedKeys = keyHolder.getKeys();
-
-        // If multiple keys are returned, we can retrieve the ID from the map
-        return (Long) generatedKeys.get("id");
+        return (Long) keyHolder.getKey();
     }
 
     public int delete(Long id) {

@@ -4,5 +4,5 @@ create TABLE IF NOT EXISTS stories
     id         BIGSERIAL  PRIMARY KEY,
     title      TEXT,
     body      TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP WITH TIME ZONE
 );
