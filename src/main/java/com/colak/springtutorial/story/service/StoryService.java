@@ -1,7 +1,7 @@
-package com.colak.springjdbctemplatetutorial.story.service;
+package com.colak.springtutorial.story.service;
 
-import com.colak.springjdbctemplatetutorial.story.dto.Story;
-import com.colak.springjdbctemplatetutorial.story.repository.StoryRepository;
+import com.colak.springtutorial.story.dto.Story;
+import com.colak.springtutorial.story.repository.StoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

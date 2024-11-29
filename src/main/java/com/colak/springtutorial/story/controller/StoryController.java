@@ -1,7 +1,7 @@
-package com.colak.springjdbctemplatetutorial.story.controller;
+package com.colak.springtutorial.story.controller;
 
-import com.colak.springjdbctemplatetutorial.story.dto.Story;
-import com.colak.springjdbctemplatetutorial.story.service.StoryService;
+import com.colak.springtutorial.story.dto.Story;
+import com.colak.springtutorial.story.service.StoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

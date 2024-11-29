@@ -1,11 +1,11 @@
-package com.colak.springjdbctemplatetutorial.story.repository;
+package com.colak.springtutorial.story.repository;
 
-import com.colak.springjdbctemplatetutorial.story.dto.Story;
+import com.colak.springtutorial.story.dto.Story;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -14,17 +14,17 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-class StoryRepositoryTest {
+class StoryRepository2Test {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private StoryRepository repository;
+    private StoryRepository2 repository;
 
 
     @BeforeEach
     void setUp() {
-        repository = new StoryRepository(jdbcTemplate);
+        repository = new StoryRepository2(namedParameterJdbcTemplate);
     }
 
     @Test

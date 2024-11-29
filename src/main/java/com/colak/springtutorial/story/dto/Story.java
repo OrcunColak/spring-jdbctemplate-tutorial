@@ -1,4 +1,4 @@
-package com.colak.springjdbctemplatetutorial.story.dto;
+package com.colak.springtutorial.story.dto;
 
 import java.time.OffsetDateTime;
 

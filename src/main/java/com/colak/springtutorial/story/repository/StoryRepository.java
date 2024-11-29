@@ -1,6 +1,6 @@
-package com.colak.springjdbctemplatetutorial.story.repository;
+package com.colak.springtutorial.story.repository;
 
-import com.colak.springjdbctemplatetutorial.story.dto.Story;
+import com.colak.springtutorial.story.dto.Story;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
