@@ -13,7 +13,9 @@ public record Story(
         OffsetDateTime offsetDateTime = story.createdAt();
         // H2 internally stores timestamps with a precision of 6 digits for nanoseconds.
         // 371967800 becomes 371967000
-        int roundedNanos = offsetDateTime.getNano() / 1000 * 1000;
+        // Round the nanoseconds to the nearest microsecond
+        int roundedNanos = (offsetDateTime.getNano() + 500) / 1000 * 1000;
+
         OffsetDateTime truncatedDateTime = offsetDateTime.withNano(roundedNanos);
 
         return new Story(story.id(), story.title(), story.body(), truncatedDateTime);
